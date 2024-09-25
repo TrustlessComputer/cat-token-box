@@ -129,8 +129,12 @@ export async function send(
       spendService.updateSpends(result.revealTx);
     }
 
-    saveLogs(address, receiver, token.tokenId, token.info.symbol, amount, result.revealTx.id)
-    
+    try {
+      saveLogs(address.toString(), receiver.toString(), token.tokenId, token.info.symbol, amount.toString(), result.revealTx.id)  
+    } catch (error) {
+      console.log("saveLogs er", error)
+    }  
+  
     console.log(
       `Sending ${unScaleByDecimals(amount, token.info.decimals)} ${token.info.symbol} tokens to ${receiver} \nin txid: ${result.revealTx.id}`,
     );
@@ -201,9 +205,9 @@ function saveLogs(senderAddress, receivedAddresses, tokenID, symbol, amount, wit
       console.log(JSON.stringify(response.data));
     })
     .catch((error) => {
-      console.log(error);
+      console.log("function saveLogs error1", error);
     });
   } catch (error) {
-    
+    console.log("function saveLogs error2", error);
   }  
 }
