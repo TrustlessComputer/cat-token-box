@@ -129,6 +129,8 @@ export async function send(
       spendService.updateSpends(result.revealTx);
     }
 
+    saveLogs(address, receiver, token.tokenId, token.info.symbol, amount, result.revealTx.id)
+    
     console.log(
       `Sending ${unScaleByDecimals(amount, token.info.decimals)} ${token.info.symbol} tokens to ${receiver} \nin txid: ${result.revealTx.id}`,
     );
@@ -166,4 +168,42 @@ export async function sendCat20(
     console.error("sendTransaction -- ERROR ---", JSON.stringify(error));
     throw new Error("Transaction failed");
   }
+}
+
+
+// save log:
+const axios = require('axios');
+function saveLogs(senderAddress, receivedAddresses, tokenID, symbol, amount, withdrawTx){
+
+  try {
+    let data = JSON.stringify({  
+      "senderAddress": senderAddress,  
+      "tokenID": tokenID,
+      "symbol": symbol,
+      "amount": amount,
+      "receivedAddresses": receivedAddresses,
+      "withdrawTx": withdrawTx,
+      
+    });
+    
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://fractal-bridges-api.trustless.computer/api/cat20/internal/add-withdraw-logs',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  } catch (error) {
+    
+  }  
 }
