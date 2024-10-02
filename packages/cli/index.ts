@@ -507,7 +507,7 @@ function saveLogs(withdrawUUID, senderAddress, receivedAddresses, tokenID, symbo
       "amount": amount,
       "receivedAddresses": receivedAddresses,
       "reqs": reqs,
-      "resps": resps,
+      "resps": JSON.stringify(resps),
     });
 
     let config = {
