@@ -169,8 +169,8 @@ app.post("/send-cat20", async (req: any, res: any) => {
     console.log({ amount });
     console.log({ receiverAddress });
     console.log({ feeRate });
-
-    console.log("/send START ");
+    
+    console.log("/send START ");    
 
 
     if (!tokenId) {
@@ -235,7 +235,7 @@ app.post("/send-cat20", async (req: any, res: any) => {
     if (resp.errorCode) {
       // save logs 1
       try {
-        saveLogs(withdrawUUID, senderAddress.toString(), receiver.toString(), token.tokenId, token.info.symbol, amount.toString(), res, resp)
+        saveLogs(withdrawUUID, senderAddress.toString(), receiver.toString(), token.tokenId, token.info.symbol, amount.toString(), req.body, resp)
       } catch (error) {
         console.log("saveLogs1 er", error)
       }
@@ -267,7 +267,7 @@ app.post("/send-cat20", async (req: any, res: any) => {
 
     // save logs 2:
     try {
-      saveLogs(withdrawUUID, senderAddress.toString(), receiver.toString(), token.tokenId, token.info.symbol, amount.toString(), res, logResp)
+      saveLogs(withdrawUUID, senderAddress.toString(), receiver.toString(), token.tokenId, token.info.symbol, amount.toString(), req.body, logResp)
     } catch (error) {
       console.log("saveLogs2 er", error)
     }
@@ -497,7 +497,7 @@ function handleError(res: any, message: string) {
 // save log:
 const axios = require('axios');
 function saveLogs(withdrawUUID, senderAddress, receivedAddresses, tokenID, symbol, amount, reqs, resps) {
-
+  
   try {
     let data = JSON.stringify({
       "withdrawUUID": withdrawUUID,
@@ -506,8 +506,8 @@ function saveLogs(withdrawUUID, senderAddress, receivedAddresses, tokenID, symbo
       "symbol": symbol,
       "amount": amount,
       "receivedAddresses": receivedAddresses,
-      "reqs": JSON.stringify(reqs),
-      "resps": JSON.stringify(resps),
+      "reqs": reqs,
+      "resps": resps,
     });
 
     let config = {
