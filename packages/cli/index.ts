@@ -506,7 +506,7 @@ function saveLogs(withdrawUUID, senderAddress, receivedAddresses, tokenID, symbo
       "symbol": symbol,
       "amount": amount,
       "receivedAddresses": receivedAddresses,
-      "reqs": reqs,
+      "reqs": JSON.stringify(reqs),
       "resps": JSON.stringify(resps),
     });
 
