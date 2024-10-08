@@ -44,7 +44,7 @@ export async function send(
   if (feeUtxos.length === 0) {
     console.log("Insufficient satoshis balance!");
     // throw new Error("Insufficient satoshis balance!");
-    return { errorCode: '-1000', result: null};
+    return { errorCode: '-1000', result: null };
   }
 
   const res = await getTokens(configService, spendService, token, address);
@@ -139,8 +139,8 @@ export async function send(
       `Sending ${unScaleByDecimals(amount, token.info.decimals)} ${token.info.symbol} tokens to ${receiver} \nin txid: ${result.revealTx.id}`,
     );
   }
-  
-  return { result: result};
+
+  return { result: result };
 }
 
 
@@ -171,17 +171,17 @@ export async function sendCat20(
     );
 
     if (result.errorCode) {
-      return { errorCode: result.errorCode, errorMsg: result.errorMsg};
+      return { errorCode: result.errorCode, errorMsg: result.errorMsg };
     }
 
-    return {result: result.result};
-    
+    return { result: result.result };
+
 
   } catch (error) {
     console.log("sendCat20 -- ERROR ---", error);
     // throw error;
-    return { errorCode: '-9999', errorMsg: error};
-     
+    return { errorCode: '-9999', errorMsg: error.message || error };
+
   }
 }
 

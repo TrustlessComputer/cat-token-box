@@ -277,7 +277,7 @@ app.post("/send-cat20", async (req: any, res: any) => {
   } catch (error) {
     console.log("/send -- ERROR --- ", error);
     // res.status(500).json({ error: error.message || error, message: "Insufficient balance" });
-    return handleErrorResponse(res, '-9999', error)
+    return handleErrorResponse(res, '-9999', error.message)
   } finally {
     console.log("/send END ");
   }
